@@ -42,6 +42,7 @@ async function getData() {
 
     // Convert the data to a form we can use for training.
     const tensorData = convertToTensor(data);
+    console.log('tensorData',tensorData);
     const {inputs, labels} = tensorData;
         
     // Train the model  
@@ -98,7 +99,9 @@ function convertToTensor(data) {
       const labelMin = labelTensor.min();
   
       const normalizedInputs = inputTensor.sub(inputMin).div(inputMax.sub(inputMin));
+      console.log('normalizedInputs',normalizedInputs);
       const normalizedLabels = labelTensor.sub(labelMin).div(labelMax.sub(labelMin));
+      console.log('normalizedLabels',normalizedLabels);
   
       return {
         inputs: normalizedInputs,
@@ -162,12 +165,12 @@ function convertToTensor(data) {
     const predictedPoints = Array.from(xs).map((val, i) => {
       return {x: val, y: preds[i]}
     });
-    
+    console.log('predictedPoints',predictedPoints);
     const originalPoints = inputData.map(d => ({
       x: d.horsepower, y: d.mpg,
     }));
     
-    
+    console.log('originalPoints',originalPoints);
     tfvis.render.scatterplot(
       {name: 'Model Predictions vs Original Data'}, 
       {values: [originalPoints, predictedPoints], series: ['original', 'predicted']}, 
